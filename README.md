@@ -12,4 +12,5 @@ Este proyecto implementa un sistema completo de análisis de sentimiento capaz d
 - Contenerización con Docker
 
 Para probar ingrese a: https://modeloiapeliculas.onrender.com/
+
 Nota: La aplicación toma unos minutos para cargar
