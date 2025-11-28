@@ -1,0 +1,124 @@
+/* Background Gradient + Blur */
+body {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  background: linear-gradient(135deg, #2b1055, #7597de);
+  color: #fff;
+  height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  z-index: -1;
+}
+
+/* Card (Glassmorphism) */
+.card {
+  margin-top: 60px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 30px;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  text-align: center;
+}
+
+/* Titles */
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-top: -5px;
+  margin-bottom: 20px;
+}
+
+/* Input */
+.input-text {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  resize: vertical;
+  outline: none;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.15);
+}
+
+.input-text::placeholder {
+  color: #eee;
+}
+
+/* Button */
+.btn-primary {
+  margin-top: 15px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #ff8c00;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background: #ffa733;
+  transform: scale(1.02);
+}
+
+/* Status */
+.status {
+  display: block;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+/* Result */
+.result-box {
+  background: rgba(255,255,255,0.15);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+.sentiment {
+  font-size: 1.2rem;
+  display: inline-block;
+  margin-top: 5px;
+  color: #00ffea;
+  font-weight: 700;
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  padding: 20px;
+  opacity: 0.7;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.hidden {
+  display: none;
+}

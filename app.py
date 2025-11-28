@@ -1,30 +1,31 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib
+from flask_cors import CORS
+import os
+
 
 # Cargar modelo y vectorizador
 model = joblib.load("modelo_sentimientos.pkl")
 vectorizer = joblib.load("vectorizador.pkl")
 
 app = Flask(__name__)
+CORS(app)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    # El usuario debe enviar: {"texto": "The movie was great"}
     data = request.get_json()
-
     if not data or "texto" not in data:
-        return jsonify({"error": "Debes enviar un texto en el campo 'texto'"}), 400
+        return jsonify({"error": "Debes enviar un JSON con el campo 'texto'"}), 400
 
     texto = data["texto"]
-
-    # Vectorizar texto
-    vec = vectorizer.transform([texto])
-
-    # Predicción
-    pred = model.predict(vec)[0]
-
-    # Convertir a etiqueta legible
-    sentimiento = "positivo" if pred == 1 else "negativo"
+    texto_vec = vectorizer.transform([texto])
+    pred = model.predict(texto_vec)[0]
+    sentimiento = "Positivo :)" if pred == 1 else "Negativo :("
 
     return jsonify({
         "texto": texto,

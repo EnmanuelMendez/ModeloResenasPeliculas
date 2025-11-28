@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Movie Review Sentiment Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+  <div class="background"></div>
+
+  <main class="card">
+    <h1 class="title">Clasificador de Reseñas de Películas</h1>
+    <p class="subtitle">Escribe una reseña positiva o negativa en inglés y el modelo la clasificará. <br>Ejemplo: "I loved the movie, it was so fun to watch" o "The movie was so bad, I had to leave the theater".</p>
+
+    <textarea id="texto" placeholder="Escribe una reseña en inglés..." rows="6" class="input-text"></textarea>
+    <br>
+    <button id="btnPredict" class="btn-primary">Predecir</button>
+    <span id="status" class="status hidden"></span>
+
+    <div id="resultado" class="result-box hidden"></div>
+  </main>
+
+
+  <script>
+    const btn = document.getElementById('btnPredict');
+    const textoEl = document.getElementById('texto');
+    const resultadoEl = document.getElementById('resultado');
+    const statusEl = document.getElementById('status');
+
+    function showStatus(text) {
+      statusEl.classList.remove('hidden');
+      statusEl.textContent = text;
+    }
+    function hideStatus() {
+      statusEl.classList.add('hidden');
+      statusEl.textContent = '';
+    }
+
+    btn.addEventListener('click', async () => {
+      const texto = textoEl.value.trim();
+      resultadoEl.classList.add('hidden');
+      resultadoEl.textContent = '';
+
+      if (!texto) {
+        resultadoEl.classList.remove('hidden');
+        resultadoEl.textContent = 'Escribe una reseña.';
+        return;
+      }
+
+      showStatus('Predicting...');
+      try {
+        const resp = await fetch('/predict', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ texto })
+        });
+
+        hideStatus();
+
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          resultadoEl.classList.remove('hidden');
+          resultadoEl.textContent = 'Error: ' + (err.error || resp.statusText);
+          return;
+        }
+
+        const data = await resp.json();
+        resultadoEl.classList.remove('hidden');
+        resultadoEl.innerHTML = `
+          <strong>Review:</strong> <pre>${data.texto}</pre>
+          <strong>Prediction:</strong> <span class="sentiment">${data.sentimiento}</span>
+        `;
+      } catch (e) {
+        hideStatus();
+        resultadoEl.classList.remove('hidden');
+        resultadoEl.textContent = 'Error de red: ' + e.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
